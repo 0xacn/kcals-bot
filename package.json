@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/index.ts"
+    "build": "tsc -b src",
+    "clean": "tsc -b src --clean",
+    "watch": "tsc -b sr c -w",
+    "dev": "yarn build && yarn start",
+    "start": "node dist/Kcals.js"
   },
   "author": "",
   "license": "ISC",
