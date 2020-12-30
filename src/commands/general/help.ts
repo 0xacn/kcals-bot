@@ -9,6 +9,6 @@ export default class Help extends Command {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async execute(message: KcalsMessage, parameters: string) {
-    return message.send("Hello");
+    return await message.send("Hello");
   }
 }
