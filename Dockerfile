@@ -8,4 +8,4 @@ RUN npm i
 
 RUN cd src
 
-RUN node src/index.js
+RUN node index.ts
