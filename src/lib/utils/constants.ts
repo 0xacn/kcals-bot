@@ -1,4 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+export const LINK = {
+  ICON: `https://cdn.discordapp.com/icons/678348607463751683/aa71447b87024e907685155048a3a269.png?size=128`,
+  VOTE: "https://top.gg/bot/ID_HERE/vote"
+};
+
 export enum ACCESS_LEVEL {
   DEFAULT = 0,
   STAFF = 3
