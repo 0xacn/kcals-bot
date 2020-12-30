@@ -1,9 +1,5 @@
 import { Structures } from "discord.js";
 
-export class KcalsGuild extends Structures.get("Guild") {
-  async fetchPermissions(userID: string, ignoreStaff = false) {
-    return this.client.handlers.permissions.fetch(this, userID, ignoreStaff);
-  }
-}
+export class KcalsGuild extends Structures.get("Guild") { }
 
 Structures.extend("Guild", () => KcalsGuild);

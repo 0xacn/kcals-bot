@@ -9,8 +9,6 @@ import {
   User
 } from "discord.js";
 import Cluster from "../KcalsClient";
-import ModerationLog from "../structures/ModerationLog";
-import PermLevel from "../structures/PermissionLevel";
 
 export interface CommandOptions {
   description?: string;
@@ -120,16 +118,11 @@ export interface KcalsGuildMessage extends KcalsMessage {
   channel: TextChannel;
 }
 
-export interface KcalsGuildMember extends GuildMember {
-  fetchPermissions(ignoreStaff?: boolean): Promise<PermissionLevel>;
-}
+export interface KcalsGuildMember extends GuildMember { }
 
 export interface KcalsGuild extends Guild {
   client: Cluster;
   settings: GuildSettings;
-  buildModerationLog(): Promise<ModerationLog>;
-  fetchPermissions(userID: string, ignoreStaff?: boolean): Promise<PermLevel>;
-  fetchSettings(): Promise<GuildSettings>;
 }
 
 export interface SettingsData {

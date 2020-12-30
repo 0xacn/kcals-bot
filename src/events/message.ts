@@ -2,8 +2,6 @@ import { Message, GuildMember, User } from "discord.js";
 import Event from "../lib/structures/Event";
 import { KcalsGuildMessage } from "../lib/types/kcalsbot";
 import { PERMISSION_LEVEL } from "../lib/utils/constants";
-import { fetchAccess } from "../lib/utils/util";
-import { permissionError } from "../lib/utils/util";
 
 export default class extends Event {
   async execute(message: Message | KcalsGuildMessage) {
@@ -24,16 +22,6 @@ export default class extends Event {
     const botSendPerms = message.channel.permissionsFor(botMember);
     if (!botSendPerms || !botSendPerms.has("SEND_MESSAGES")) return;
 
-    const userPermissions = await this.client.handlers.permissions.fetch(message.guild, message.author.id);
-    // eslint-disable-next-line max-len
-    const actualUserPermissions = await this.client.handlers.permissions.fetch(message.guild, message.author.id, true);
-
-    if (
-      userPermissions.level ===
-            PERMISSION_LEVEL.SERVER_BLACKLISTED
-    )
-      return;
-
     const [split, ...params] = message.content.split(" ");
 
     const prefix = this.matchPrefix(message.author, split);
@@ -44,22 +32,7 @@ export default class extends Event {
     if (!message.member)
       await message.guild.members.fetch(message.author.id);
 
-    const accessLevel = await fetchAccess(message.guild);
-    if (command.access && accessLevel.level < command.access) {
-      return message.error("Missing access");
-    }
-
-    if (
-      userPermissions.level < command.permission ||
-            (actualUserPermissions.level < command.permission &&
-                actualUserPermissions.level !==
-                PERMISSION_LEVEL.SERVER_BLACKLISTED &&
-                command.permission <= PERMISSION_LEVEL.SERVER_OWNER)
-    ) {
-      return message.error(permissionError(this.client, message, command, actualUserPermissions));
-    }
-
-    return command.execute(message, params.join(" "), userPermissions);
+    return command.execute(message, params.join(" "));
   }
 
   matchPrefix(user: User, command: string) {

@@ -10,11 +10,6 @@ import Logger from "./utils/Logger";
 // Handlers
 import CommandHandler from "../handlers/CommandHandler";
 import EventHandler from "../handlers/EventHandler";
-import PermissionsHandler from "../handlers/PermissionsHandler";
-
-interface KcalsHandlers {
-  permissions: PermissionsHandler;
-}
 
 export default class Cluster extends Client {
   public node: VezaClient | undefined;
@@ -23,7 +18,6 @@ export default class Cluster extends Client {
   public cluster = `${process.env.CLUSTER} [${this.shards.join(",")}]`;
 
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  public handlers = {} as KcalsHandlers;
   public commands = new CommandHandler(this);
   public events = new EventHandler(this);
 
@@ -51,7 +45,7 @@ export default class Cluster extends Client {
     // ...
 
     // Setup handlers
-    this.handlers.permissions = new PermissionsHandler(this);
+    // ...
 
     return super.login(token);
   }
