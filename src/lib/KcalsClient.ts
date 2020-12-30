@@ -22,7 +22,7 @@ export default class Cluster extends Client {
   public events = new EventHandler(this);
 
   public logger = new Logger();
-  public owners: string[] = [];
+  public owners: string[] = ["Simonn#6377"];
 
   public constructor(node: VezaClient | undefined) {
     super({
