@@ -1,0 +1,23 @@
+{
+  "DESCRIPTION": "Get general information about KcalsBot or help with a specific command.",
+  "USAGE": "help [command]",
+  "NONE": "If you would like to access my list of commands, try using `{{prefix}}commands`.",
+  "TYPICAL_INFO": "TypicalBot Info",
+  "INVALID": "There is not a command named `{{name}}`. Try searching something else.",
+  "INVALID_INFO": "Invalid Command Input",
+  "TEXT_1": "**__Usage For:__** {{name}}",
+  "TEXT_2": "**[Param]** means a parameter is optional.",
+  "TEXT_3": "**<Param>** means a parameter is required.",
+  "TEXT_4": "Command: {{commandName}}",
+  "TEXT_5": "Aliases: {{aliases}}",
+  "TEXT_6": "Permission: {{permission}}",
+  "TEXT_7": "Description: {{description}}",
+  "TEXT_8": "Usage: {{usage}}",
+  "COMMAND_USAGE": "Command Usage: {{name}}",
+  "PARAMETERS": "[[Parameter]]() - Optional Parameter\n[<Parameter>]() - Required Parameter",
+  "COMMAND": "Command",
+  "ALIASES": "Aliases",
+  "PERMISSION": "Permission",
+  "DESC": "Description",
+  "USE": "Usage"
+}

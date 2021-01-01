@@ -1,0 +1,17 @@
+{
+  "PREFIX": "This server's prefix is {{prefix}}.",
+  "MULTIPLE_PREFIXES": "`{{default}}` or `{{custom}}`",
+  "DISABLED": "That command is not enabled on this server.",
+  "MISSING_PERMS": "Your permission level is too low to execute that command. The command requires permission level {{requiredLevel}} ({{requiredTitle}}) and you are level {{userLevel}} ({{userTitle}}).",
+  "USAGE_ERROR": "Invalid command usage. Check `{{prefix}}help {{name}}` for more information.",
+  "PAGIFY": "Page {{page}} / {{pages}} | {{total}} Total\n\n{{content}}",
+  "CHOOSE_OPTION_1": "Please choose an option by typing the number.",
+  "CHOOSE_OPTION_2": "{{options}}",
+  "CANCEL_OPTIONS": [
+    "cancel",
+    "abort",
+    "exit",
+    "quit"
+  ],
+  "CANCELLED": "The menu has been cancelled."
+}
