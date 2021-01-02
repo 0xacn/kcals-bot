@@ -35,9 +35,9 @@ export class KcalsMessage extends Structures.get("Message") {
 
   async chooseOption(options: string[]) {
     const response = await this.ask([
-      "OPTION_1",
+      this.translate("misc:CHOOSE_OPTION_1"),
       "\n",
-      "OPTION_2"
+      this.translate("misc:CHOOSE_OPTION_2", { options: options.map((opt, index) => `**${index + 1}** - ${opt}`).join("\n") })
     ].join("\n"));
 
     if (!response) {
@@ -45,11 +45,11 @@ export class KcalsMessage extends Structures.get("Message") {
       return;
     }
 
-    const CANCEL_OPTIONS = ["cancel"];
+    const CANCEL_OPTIONS = this.translate("misc:CANCEL_OPTIONS", { returnObjects: true });
     if (CANCEL_OPTIONS.includes(response.content.toLowerCase())) {
       if (response.deletable) response.delete().catch(() => undefined);
       this.menuResponse?.delete().catch(() => undefined);
-      await this.respond("Cancelled");
+      await this.respond(this.translate("misc:CANCELLED"));
       return;
     }
 
@@ -65,7 +65,7 @@ export class KcalsMessage extends Structures.get("Message") {
   }
 
   respond(content: string, embed?: MessageEmbed) {
-    return this.channel.send(`${this.author} | ${content}`, {embed});
+    return this.send(`${this.author} | ${content}`, embed);
   }
 
   send(content: string | MessageEmbed,
@@ -81,8 +81,9 @@ export class KcalsMessage extends Structures.get("Message") {
     return this.channel.send("", embed);
   }
 
-  success(content: string, embed?: MessageEmbed) {
-    return this.channel.send(`${this.author} | ✔️ | ${content}`, { embed });
+  // success(content: string, embed?: MessageEmbed) {
+  success(content: string, embed: MessageEmbed) {
+    return this.channel.send(`${this.author} | ✔️ | ${content}`, embed);
   }
 
   error(content: string, embed?: MessageEmbed, options?: MessageOptions) {
@@ -93,6 +94,14 @@ export class KcalsMessage extends Structures.get("Message") {
     embed?: MessageEmbed,
     options?: MessageOptions) {
     return this.author?.send(content, { ...options, embed });
+  }
+
+  translate(key: string, args?: Record<string, unknown>) {
+    const language = this.client.translate.get(this.guild ? this.guild.settings.language : "en-US");
+
+    if (!language) throw new Error("Message: Invalid language set in settings.");
+
+    return language(key, args);
   }
 }
 

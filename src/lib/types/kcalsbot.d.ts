@@ -6,9 +6,11 @@ import {
   MessageEmbed,
   MessageOptions,
   TextChannel,
-  User
+  User,
 } from "discord.js";
 import Cluster from "../KcalsClient";
+import ModerationLog from "../structures/ModerationLog";
+import PermLevel from "../structures/PermissionLevel";
 
 export interface CommandOptions {
   description?: string;
@@ -36,16 +38,69 @@ export interface GuildSettings {
     public: string[];
     mute: string | null;
   };
+  ignored: {
+    commands: string[];
+    invites: string[];
+    stars: string[];
+  };
   announcements: {
     id: string | null;
     mention: string | null;
   };
   aliases: KcalsCommandAlias[];
+  logs: {
+    id: string | null;
+    join: string | null;
+    leave: string | null;
+    ban: string | null;
+    unban: string | null;
+    delete: string | null;
+    nickname: string | null;
+    invite: string | null;
+    moderation: string | null;
+    purge: string | null;
+    say: string | null;
+  };
+  auto: {
+    role: {
+      bots: string | null;
+      id: string | null;
+      delay: number | null;
+      silent: boolean;
+    };
+    message: string | null;
+    nickname: string | null;
+  };
   mode: "free" | "lite" | "strict";
   prefix: {
     custom: string | null;
     default: boolean;
   };
+  automod: {
+    invite: boolean;
+    inviteaction: boolean;
+    invitewarn: number;
+    invitekick: number;
+    link: boolean;
+  };
+  nonickname: boolean;
+}
+
+export interface TaskOptions {
+  data: unknown;
+  id: number;
+  end: number;
+  type: string;
+}
+
+export interface UnbanTaskData {
+  guildID: string;
+  userID: string;
+}
+
+export interface UnmuteTaskData {
+  guildID: string;
+  memberID: string;
 }
 
 export interface PermissionLevelOptions {
@@ -75,7 +130,7 @@ export interface KcalsCommandAlias {
 
 export interface AccessLevel {
   level: 0 | 1 | 3;
-  title: "Default" | "Kcals Staff";
+  title: "Default" | "KcalsBot Staff" | "KcalsBot Donor";
 }
 
 export interface KcalsMessage extends Message {
@@ -109,6 +164,7 @@ export interface KcalsMessage extends Message {
     embed?: MessageEmbed,
     options?: MessageOptions
   ): Promise<Message>;
+  translate(key: string, args?: Record<string, unknown>): string;
 }
 
 export interface KcalsGuildMessage extends KcalsMessage {
@@ -118,11 +174,17 @@ export interface KcalsGuildMessage extends KcalsMessage {
   channel: TextChannel;
 }
 
-export interface KcalsGuildMember extends GuildMember { }
+export interface KcalsGuildMember extends GuildMember {
+  fetchPermissions(ignoreStaff?: boolean): Promise<PermissionLevel>;
+}
 
 export interface KcalsGuild extends Guild {
   client: Cluster;
   settings: GuildSettings;
+  buildModerationLog(): Promise<ModerationLog>;
+  translate(key: string, args?: Record<string, unknown>): string;
+  fetchPermissions(userID: string, ignoreStaff?: boolean): Promise<PermLevel>;
+  fetchSettings(): Promise<GuildSettings>;
 }
 
 export interface SettingsData {
@@ -132,6 +194,16 @@ export interface SettingsData {
   path: string;
 }
 
+export interface BanLog {
+  expiration: number;
+  moderator: User;
+  reason: string;
+}
+
+export interface UnbanLog {
+  moderator: User;
+  reason?: string;
+}
 export interface FormatMessageOptions {
   oldMember?: KcalsGuildMember;
   channel?: GuildChannel;
