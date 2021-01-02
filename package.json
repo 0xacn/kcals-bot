@@ -14,6 +14,8 @@
     "start": "tsc && node dist/src/index.js"
   },
   "dependencies": {
+    "@sentry/node": "^5.29.2",
+    "@sentry/tracing": "^5.29.2",
     "dotenv": "^8.2.0",
     "i18next": "^19.8.4",
     "i18next-node-fs-backend": "^2.1.3",
